@@ -18,8 +18,14 @@ class DeleteVessel extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Vessel::findOrFail($id);
+            $data =Vessel::findOrFail($id);
             $data->delete();
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Success delete vessel from database',
+            ]);
+            
         } catch(Exception $e) {
             return response()->json([
                 'status' => 'ERROR',

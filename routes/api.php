@@ -22,27 +22,42 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/auth/login', LoginController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::group(['prefix' => 'vessel-type'], function() {
-        Route::post('/', \App\Http\Controllers\Api\Vessels\CreateVesselType::class);
-        Route::get('/', \App\Http\Controllers\Api\Vessels\GetVesselTypes::class);
-        Route::get('/{id}', \App\Http\Controllers\Api\Vessels\GetVesselTypeById::class);
-        Route::put('/{id}', \App\Http\Controllers\Api\Vessels\UpdateVesselType::class);
-        Route::delete('/{id}', \App\Http\Controllers\Api\Vessels\DeleteVesselType::class);
+
+    Route::group(['prefix' => 'company'], function (){
+        Route::get('/', \App\Http\Controllers\Api\Company\GetCompany::class);
+        Route::get('/{id}', \App\Http\Controllers\Api\Company\GetCompanyById::class);
+        Route::post('/', \App\Http\Controllers\Api\Company\CreateCompany::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Company\UpdateCompany::class);
+        Route::delete('/{id}', \App\Http\Controllers\Api\Company\DeleteCompany::class);
+        
+    });
+    Route::group(['prefix' => 'crew'], function (){
+        Route::get('/', \App\Http\Controllers\Api\Crew\GetCrew::class);
+        Route::get('/{id}', \App\Http\Controllers\Api\Crew\GetCrewById::class);
+        Route::post('/', \App\Http\Controllers\Api\Crew\CreateCrew::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Crew\UpdateCrew::class);
+        Route::delete('/{id}', \App\Http\Controllers\Api\Crew\DeleteCrew::class);
+        
     });
 
-    Route::group(['prefix' => 'fisherman'], function() {
-        Route::post('/', \App\Http\Controllers\Api\Fisherman\CreateFisherman::class);
-        Route::get('/', \App\Http\Controllers\Api\Fisherman\GetFisherman::class);
-        Route::get('/{id}', \App\Http\Controllers\Api\Fisherman\GetFishermanById::class);
-        Route::put('/{id}', \App\Http\Controllers\Api\Fisherman\UpdateFisherman::class);
-        Route::delete('/{id}', \App\Http\Controllers\Api\Fisherman\DeleteFisherman::class);
+    Route::group(['prefix' => 'pelabuhan'], function (){
+        Route::get('/', \App\Http\Controllers\Api\Pelabuhan\GetPelabuhan::class);
+        Route::get('/{id}', \App\Http\Controllers\Api\Pelabuhan\GetPelabuhanById::class);
+        Route::post('/', \App\Http\Controllers\Api\Pelabuhan\CreatePelabuhan::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Pelabuhan\UpdatePelabuhan::class);
+        Route::delete('/{id}', \App\Http\Controllers\Api\Pelabuhan\DeleteCrew::class);
+        
     });
 
-    Route::group(['prefix' => 'vessels'], function() {
-        Route::post('/', \App\Http\Controllers\Api\Vessel\CreateVessel::class);
+    Route::group(['prefix' => 'vessel'], function (){
         Route::get('/', \App\Http\Controllers\Api\Vessel\GetVessel::class);
         Route::get('/{id}', \App\Http\Controllers\Api\Vessel\GetVesselById::class);
+        Route::post('/', \App\Http\Controllers\Api\Vessel\CreateVessel::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Vessel\UpdateVessel::class);
-        Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
+        Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteCrew::class);
+        
     });
+
+
+
 });

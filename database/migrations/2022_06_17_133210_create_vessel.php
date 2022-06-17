@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateVessel extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vessels_types', function (Blueprint $table) {
+        Schema::create('vessel', function (Blueprint $table) {
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
+            $table->uuid('pelabuhan_id')->index();
+            $table->uuid('company_id')->index();
             $table->string('name');
+            $table->string('imo');
+            $table->string('call_sign');
+            $table->integer('length');
+            $table->integer('width');
+            $table->integer('gt');
+            $table->integer('netto');
+            $table->string('years');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vessels_types');
+        Schema::dropIfExists('vessel');
     }
-};
+}

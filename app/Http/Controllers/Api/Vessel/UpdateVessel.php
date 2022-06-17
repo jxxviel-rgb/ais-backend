@@ -19,10 +19,10 @@ class UpdateVessel extends Controller
     public function __invoke(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'vesselTypeId' => 'required|exists:vessels_types,id',
-            'fishermanId' => 'required|exists:fishermans,id',
+            'company_id' => 'required|exists:company,id',
+            'pelabuhan_id' => 'required|exists:pelabuhan,id',
             'name' => 'required',
-            'callSignin' => 'required',
+            'call_signin' => 'required',
             'length' => 'required|numeric',
             'width' => 'required|numeric',
             'depth' => 'required|numeric',
@@ -42,8 +42,8 @@ class UpdateVessel extends Controller
 
         try {
             $data = Vessel::findOrFail($id);
-            $data->vessels_type_id = $request->vesselTypeId;
-            $data->fisherman_id = $request->fishermanId;
+            $data->company_id = $request->company_id;
+            $data->pelabuhan_id = $request->pelabuhan_id;
             $data->name = $request->name;
             $data->call_signin = $request->callSignin;
             $data->imo = $request->imo;
@@ -59,7 +59,7 @@ class UpdateVessel extends Controller
 
             return response()->json([
                 'status' => 'Success',
-                'message' => 'Success save vessel to database',
+                'message' => 'Success update vessel to database',
                 'vesselId' => $data->id
             ]);
 

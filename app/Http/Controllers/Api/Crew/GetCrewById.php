@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Fisherman;
+namespace App\Http\Controllers\Api\Crew;
 
 use App\Http\Controllers\Controller;
-use App\Models\Fishermans;
+use App\Models\Company;
 use Exception;
 use Illuminate\Http\Request;
 
-class DeleteFisherman extends Controller
+class GetCrewById extends Controller
 {
     /**
      * Handle the incoming request.
@@ -18,18 +18,16 @@ class DeleteFisherman extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Fishermans::findOrFail($id);
-            $data->delete();
+            $data = Company::findOrFail($id);
 
             return response()->json([
                 'status' => 'Success',
-                'message' => 'Success delete fisherman from database',
+                'result' => $data,
             ]);
-            
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' =>'Failed to delete fisherman with id '.$id,
+                'message' => 'Company with id ' . $id . ' not found',
             ], 400);
         }
     }

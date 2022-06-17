@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Crew;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vessel;
+use App\Models\Crew;
 use Exception;
 use Illuminate\Http\Request;
 
-class GetVesselById extends Controller
+class DeleteCrew extends Controller
 {
     /**
      * Handle the incoming request.
@@ -18,16 +18,17 @@ class GetVesselById extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Vessel::findOrFail($id);
+            $data = Crew::findOrFail($id);
+            $data->delete();
 
             return response()->json([
                 'status' => 'Success',
-                'result' => $data,
+                'message' => 'Success delete crew from database',
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' => 'Pelabuhan with id ' . $id . ' not found',
+                'message' => 'Failed to delete crew with id ' . $id,
             ], 400);
         }
     }

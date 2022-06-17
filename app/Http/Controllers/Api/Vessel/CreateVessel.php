@@ -19,10 +19,10 @@ class CreateVessel extends Controller
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'vesselTypeId' => 'required|exists:vessels_types,id',
-            'fishermanId' => 'required|exists:fishermans,id',
+            'company_id' => 'required|exists:company,id',
+            'pelabuhan_id' => 'required|exists:pelabuhan,id',
             'name' => 'required',
-            'callSignin' => 'required',
+            'call_signin' => 'required',
             'length' => 'required|numeric',
             'width' => 'required|numeric',
             'depth' => 'required|numeric',
@@ -42,8 +42,8 @@ class CreateVessel extends Controller
 
         try {
             $data = new Vessel();
-            $data->vessels_type_id = $request->vesselTypeId;
-            $data->fisherman_id = $request->fishermanId;
+            $data->company_id = $request->company_id;
+            $data->pelabuhan_id = $request->pelabuhan_id;
             $data->name = $request->name;
             $data->call_signin = $request->callSignin;
             $data->imo = $request->imo;
