@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Company;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vessel;
+use App\Models\Company;
+use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 
-class GetVessel extends Controller
+class GetCompany extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,7 +17,7 @@ class GetVessel extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = Vessel::all();
+        $data = Company::all();
 
         return response()->json([
             'status' => 'Success',

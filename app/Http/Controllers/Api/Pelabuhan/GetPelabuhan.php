@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Pelabuhan;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vessel;
+use App\Models\Pelabuhan;
 use Illuminate\Http\Request;
 
-class GetVessel extends Controller
+class GetPelabuhan extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,7 +16,7 @@ class GetVessel extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = Vessel::all();
+        $data = Pelabuhan::all();
 
         return response()->json([
             'status' => 'Success',

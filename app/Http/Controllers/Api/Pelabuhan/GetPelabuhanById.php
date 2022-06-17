@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Pelabuhan;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vessel;
+use App\Models\Pelabuhan;
 use Exception;
 use Illuminate\Http\Request;
 
-class GetVesselById extends Controller
+class GetPelabuhanById extends Controller
 {
     /**
      * Handle the incoming request.
@@ -18,7 +18,7 @@ class GetVesselById extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Vessel::findOrFail($id);
+            $data = Pelabuhan::findOrFail($id);
 
             return response()->json([
                 'status' => 'Success',

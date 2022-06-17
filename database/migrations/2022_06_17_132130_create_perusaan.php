@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePerusaan extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fishermans', function (Blueprint $table) {
+        Schema::create('company', function (Blueprint $table) {
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
-            $table->string('name')->index();
-            $table->enum('gender', ['l','p']);
-            $table->string('address');
+            $table->string('name');
+            $table->string('registration_number');
             $table->string('phone');
+            $table->string('address');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fishermans');
+        Schema::dropIfExists('company');
     }
-};
+}

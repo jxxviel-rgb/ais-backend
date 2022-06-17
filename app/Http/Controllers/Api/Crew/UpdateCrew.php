@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\Fisherman;
+namespace App\Http\Controllers\Api\Crew;
 
 use App\Http\Controllers\Controller;
-use App\Models\Fishermans;
+use App\Models\Crew;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class UpdateFisherman extends Controller
+class UpdateCrew extends Controller
 {
     /**
      * Handle the incoming request.
@@ -19,38 +19,39 @@ class UpdateFisherman extends Controller
     public function __invoke(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:3|max:60',
-            'phone' => 'required|min:10|max:15',
-            'address' => 'required|min:8|max:60',
-            'gender' => 'required|in:l,p'
+            'company_id' => 'required|exists:company,id',
+            'name' => 'required',
+            'gender' => 'required|in:m,f',
+            'address' => 'required',
+            'phone' => 'required',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'ERROR',
                 'message' => 'Failed to validate data',
                 'data' => $validator->errors()
-            ],400);
+            ], 400);
         }
 
         try {
-            $data =  Fishermans::findOrFail($id);
+            $data = Crew::findOrFail($id);
+            $data->company_id = $request->company_id;
             $data->name = $request->name;
-            $data->phone = $request->phone;
-            $data->address = $request->address;
             $data->gender = $request->gender;
+            $data->address = $request->address;
+            $data->phone = $request->phone;
             $data->save();
-    
+
             return response()->json([
                 'status' => 'Success',
-                'message' => 'Success update fisherman data to database',
-                'fishermanId' => $data->id
+                'message' => 'Success update company',
+                'companyId' => $data->id
             ]);
-
-        } catch(Exception $e) {
+        } catch (Exception $err) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' =>$e->getMessage(),
+                'message' =>$err->getMessage(),
             ], 400);
         }
     }

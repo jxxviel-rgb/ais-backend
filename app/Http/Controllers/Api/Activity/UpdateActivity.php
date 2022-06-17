@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Activity;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vessel;
 use Illuminate\Http\Request;
 
-class GetVessel extends Controller
+class UpdateActivity extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,11 +15,6 @@ class GetVessel extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = Vessel::all();
-
-        return response()->json([
-            'status' => 'Success',
-            'result' => $data
-        ]);
+        //
     }
 }

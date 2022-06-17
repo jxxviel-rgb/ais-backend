@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateActivity extends Migration
 {
     /**
      * Run the migrations.
@@ -14,16 +14,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vessels_logs', function (Blueprint $table) {
+        Schema::create('activity', function (Blueprint $table) {
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
-            $table->uuid('vessels_id')->index();
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->uuid('vessel_id')->index();
+            $table->uuid('company_id')->index();
+            $table->date('departure_date');
+            $table->date('return_date')->nullable();
+            $table->string('income');
             $table->timestamps();
 
-
-            $table->foreign('vessels_id')->references('id')->on('vessels');
+            $table->foreign('vessel_id')->references('id')->on('vessel');
+            $table->foreign('company_id')->references('id')->on('company');
         });
+
     }
 
     /**
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vessels_logs');
+        Schema::dropIfExists('activity');
     }
-};
+}

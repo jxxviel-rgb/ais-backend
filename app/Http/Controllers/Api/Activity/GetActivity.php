@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Activity;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
-class UploadVesselImage extends Controller
+class GetActivity extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,5 +17,11 @@ class UploadVesselImage extends Controller
     public function __invoke(Request $request)
     {
         //
+        $data = Activity::all();
+
+        return response()->json([
+            'status' => 'Success',
+            'result' => $data
+        ]);
     }
 }

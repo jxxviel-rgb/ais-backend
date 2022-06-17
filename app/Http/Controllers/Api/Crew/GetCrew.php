@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Fisherman;
+namespace App\Http\Controllers\Api\Crew;
 
 use App\Http\Controllers\Controller;
-use App\Models\Fishermans;
+use App\Models\Crew;
 use Illuminate\Http\Request;
 
-class GetFisherman extends Controller
+class GetCrew extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,11 +16,13 @@ class GetFisherman extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = Fishermans::all();
+        //
+
+        $data = Crew::all();
+
         return response()->json([
             'status' => 'Success',
             'result' => $data
         ]);
-
     }
-}
+    }

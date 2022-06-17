@@ -15,15 +15,7 @@ class Vessel extends Model
 
     protected $casts = [
         'id' => 'string',
-        'fisherman_id' => 'string',
-        'vessels_type_id' => 'string',
     ];
 
-    public function fisherman() {
-        return $this->belongsTo(Fishermans::class);
-    }
 
-    public function vesselType() {
-        return $this->belongsTo(VesselsType::class, 'vessels_type_id', 'id');
-    }
 }

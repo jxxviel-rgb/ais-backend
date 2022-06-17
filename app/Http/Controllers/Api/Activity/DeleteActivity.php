@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Activity;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vessel;
+use App\Models\Company;
 use Exception;
 use Illuminate\Http\Request;
 
-class GetVesselById extends Controller
+class DeleteActivity extends Controller
 {
     /**
      * Handle the incoming request.
@@ -18,16 +18,18 @@ class GetVesselById extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Vessel::findOrFail($id);
+            $data =Company::findOrFail($id);
+            $data->delete();
 
             return response()->json([
                 'status' => 'Success',
-                'result' => $data,
+                'message' => 'Success delete company from database',
             ]);
-        } catch (Exception $e) {
+            
+        } catch(Exception $e) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' => 'Pelabuhan with id ' . $id . ' not found',
+                'message' =>'Failed to delete company with id '.$id,
             ], 400);
         }
     }
