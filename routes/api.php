@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{id}', \App\Http\Controllers\Api\Pelabuhan\GetPelabuhanById::class);
         Route::post('/', \App\Http\Controllers\Api\Pelabuhan\CreatePelabuhan::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Pelabuhan\UpdatePelabuhan::class);
-        Route::delete('/{id}', \App\Http\Controllers\Api\Pelabuhan\DeleteCrew::class);
+        Route::delete('/{id}', \App\Http\Controllers\Api\Pelabuhan\DeletePelabuhan::class);
         
     });
 
@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{id}', \App\Http\Controllers\Api\Vessel\GetVesselById::class);
         Route::post('/', \App\Http\Controllers\Api\Vessel\CreateVessel::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Vessel\UpdateVessel::class);
-        Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteCrew::class);
+        Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
         
     });
 

@@ -10,4 +10,11 @@ class Company extends Model
     use HasFactory;
 
     protected $table = 'company';
+
+    protected $keyType = 'string';
+
+    protected $casts = [
+        'id' => 'string',
+    ];
+
 }
