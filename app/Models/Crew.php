@@ -9,4 +9,14 @@ class Crew extends Model
 {
     use HasFactory;
     protected $table = 'crew';
+
+    protected $keyType = 'string';
+
+    protected $casts = [
+        'id' => 'string',
+    ];
+
+    public function company() {
+        return $this->belongsTo(Company::class);
+    }
 }

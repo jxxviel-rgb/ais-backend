@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Crew;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Crew;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class GetCrewById extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Company::findOrFail($id);
+            $data = Crew::findOrFail($id);
 
             return response()->json([
                 'status' => 'Success',
@@ -27,7 +28,7 @@ class GetCrewById extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' => 'Company with id ' . $id . ' not found',
+                'message' => 'Crew with id ' . $id . ' not found',
             ], 400);
         }
     }

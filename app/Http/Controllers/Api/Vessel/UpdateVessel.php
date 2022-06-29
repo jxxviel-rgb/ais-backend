@@ -22,14 +22,14 @@ class UpdateVessel extends Controller
             'company_id' => 'required|exists:company,id',
             'pelabuhan_id' => 'required|exists:pelabuhan,id',
             'name' => 'required',
-            'call_signin' => 'required',
+            'call_sign' => 'required',
             'length' => 'required|numeric',
             'width' => 'required|numeric',
-            'depth' => 'required|numeric',
+            // 'depth' => 'required|numeric',
             'gt' => 'required|numeric',
             'netto' => 'required|numeric',
-            'year' => 'required|numeric|digits:4',
-            'description' => 'min:10|max:100'
+            'years' => 'required|numeric|digits:4',
+            // 'description' => 'min:10|max:100'
         ]);
 
         if($validator->fails()) {
@@ -45,15 +45,15 @@ class UpdateVessel extends Controller
             $data->company_id = $request->company_id;
             $data->pelabuhan_id = $request->pelabuhan_id;
             $data->name = $request->name;
-            $data->call_signin = $request->callSignin;
+            $data->call_sign = $request->call_sign;
             $data->imo = $request->imo;
             $data->length = $request->length;
             $data->width = $request->width;
-            $data->depth = $request->depth;
+            // $data->depth = $request->depth;
             $data->gt = $request->gt;
             $data->netto = $request->netto;
-            $data->year = $request->year;
-            $data->description = $request->description;
+            $data->years = $request->years;
+            // $data->description = $request->description;
             $data->save();
 
 

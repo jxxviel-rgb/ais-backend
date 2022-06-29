@@ -23,14 +23,16 @@ class CreateCrew extends Controller
             'gender' => 'required|in:m,f',
             'address' => 'required',
             'phone' => 'required',
+        ], [], [
+            'company_id' => 'company',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'ERROR',
                 'message' => 'Failed to validate data',
                 'data' => $validator->errors()
-            ],400);
+            ], 400);
         }
 
         $data = new Crew();

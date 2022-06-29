@@ -16,7 +16,7 @@ class GetVessel extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = Vessel::all();
+        $data = Vessel::with(['company', 'pelabuhan'])->get();
 
         return response()->json([
             'status' => 'Success',

@@ -18,7 +18,7 @@ class GetCrew extends Controller
     {
         //
 
-        $data = Crew::all();
+        $data = Crew::with('company')->get();
 
         return response()->json([
             'status' => 'Success',
