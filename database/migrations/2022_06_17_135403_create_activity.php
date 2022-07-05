@@ -20,7 +20,8 @@ class CreateActivity extends Migration
             $table->uuid('company_id')->index();
             $table->date('departure_date');
             $table->date('return_date')->nullable();
-            $table->string('income');
+            $table->enum('status', ['depart', 'return']);
+            $table->string('income')->nullable();
             $table->timestamps();
 
             $table->foreign('vessel_id')->references('id')->on('vessel');

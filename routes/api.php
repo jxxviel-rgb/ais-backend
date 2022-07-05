@@ -34,6 +34,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'crew'], function (){
         Route::get('/', \App\Http\Controllers\Api\Crew\GetCrew::class);
         Route::get('/{id}', \App\Http\Controllers\Api\Crew\GetCrewById::class);
+        Route::get('/activity/{id}', \App\Http\Controllers\Api\Crew\GetCrewByCompanyId::class);
+        Route::post('/activity', \App\Http\Controllers\Api\Crew\AddCrewDeparture::class);
+        Route::delete('/activity/{id}', \App\Http\Controllers\Api\Crew\DeleteCrewDeparture::class);
         Route::post('/', \App\Http\Controllers\Api\Crew\CreateCrew::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Crew\UpdateCrew::class);
         Route::delete('/{id}', \App\Http\Controllers\Api\Crew\DeleteCrew::class);
@@ -51,11 +54,19 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => 'vessel'], function (){
         Route::get('/', \App\Http\Controllers\Api\Vessel\GetVessel::class);
+        Route::get('/company/{id}', \App\Http\Controllers\Api\Vessel\GetVessel::class);
         Route::get('/{id}', \App\Http\Controllers\Api\Vessel\GetVesselById::class);
         Route::post('/', \App\Http\Controllers\Api\Vessel\CreateVessel::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Vessel\UpdateVessel::class);
         Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
         
+    });
+
+    Route::group(['prefix' => 'activity'], function() {
+        Route::get('/', \App\Http\Controllers\Api\Activity\GetActivity::class);
+        Route::get('/{id?}', \App\Http\Controllers\Api\Activity\GetActivity::class);
+        Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
     });
 
 

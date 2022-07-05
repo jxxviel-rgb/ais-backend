@@ -14,9 +14,14 @@ class GetVessel extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, $id = null)
     {
-        $data = Vessel::with(['company', 'pelabuhan'])->get();
+
+        if($id) {
+            $data = Vessel::with(['company', 'pelabuhan'])->where('company_id', $id)->get();
+        } else {
+            $data = Vessel::with(['company', 'pelabuhan'])->get();
+        }
 
         return response()->json([
             'status' => 'Success',
