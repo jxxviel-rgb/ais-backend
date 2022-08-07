@@ -18,9 +18,12 @@ class CreateVessel extends Migration
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
             $table->uuid('pelabuhan_id')->index();
             $table->uuid('company_id')->index();
+            $table->integer('msg_type');
+            $table->string('mmsi');
             $table->string('name');
             $table->string('imo');
             $table->string('call_sign');
+            $table->string('type');
             $table->integer('length');
             $table->integer('width');
             $table->integer('gt');

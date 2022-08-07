@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Vessel extends Model
 {
     use HasFactory;
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
     // use SoftDeletes;
     protected $table = 'vessel';
 
@@ -18,13 +19,21 @@ class Vessel extends Model
         'id' => 'string',
     ];
 
-    public function company() {
+    public function company()
+    {
         return $this->belongsTo(Company::class);
     }
 
-    public function pelabuhan() {
+    public function pelabuhan()
+    {
         return $this->belongsTo(Pelabuhan::class);
     }
-
-
+    public function position()
+    {
+        return $this->hasMany(Position::class);
+    }
+    public function latestPosition()
+    {
+        return $this->hasOne(Position::class)->latest()->limit(1);
+    }
 }
