@@ -16,10 +16,11 @@ class CreateVessel extends Migration
     {
         Schema::create('vessel', function (Blueprint $table) {
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
-            $table->uuid('pelabuhan_id')->index();
             $table->uuid('company_id')->index();
             $table->string('name');
             $table->string('imo');
+            $table->string('no_ais');
+            $table->string('image');
             $table->string('call_sign');
             $table->integer('length');
             $table->integer('width');
@@ -27,6 +28,8 @@ class CreateVessel extends Migration
             $table->integer('netto');
             $table->string('years');
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('company');
         });
     }
 

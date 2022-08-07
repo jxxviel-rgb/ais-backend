@@ -23,6 +23,8 @@ Route::post('/auth/login', LoginController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
+    Route::get('/dashboard', \App\Http\Controllers\Api\Dashboard\GetDataDashboard::class);
+
     Route::group(['prefix' => 'company'], function (){
         Route::get('/', \App\Http\Controllers\Api\Company\GetCompany::class);
         Route::get('/{id}', \App\Http\Controllers\Api\Company\GetCompanyById::class);
@@ -40,6 +42,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', \App\Http\Controllers\Api\Crew\CreateCrew::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Crew\UpdateCrew::class);
         Route::delete('/{id}', \App\Http\Controllers\Api\Crew\DeleteCrew::class);
+        Route::get('/company/{id}', \App\Http\Controllers\Api\Crew\GetCrewByCompany::class);
         
     });
 
@@ -52,7 +55,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         
     });
 
-    Route::group(['prefix' => 'vessel'], function (){
+    Route::group(['prefix' => 'type'], function() {
+        Route::get('/', \App\Http\Controllers\Api\Type\GetTypeController::class);
+        Route::post('/', \App\Http\Controllers\Api\Type\CreateTypeController::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Type\UpdateTypeController::class);
+    });
+
+    Route::group(['prefix' => 'vessel', 'middleware' => 'cors'], function (){
         Route::get('/', \App\Http\Controllers\Api\Vessel\GetVessel::class);
         Route::get('/company/{id}', \App\Http\Controllers\Api\Vessel\GetVessel::class);
         Route::get('/{id}', \App\Http\Controllers\Api\Vessel\GetVesselById::class);
@@ -67,6 +76,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{id?}', \App\Http\Controllers\Api\Activity\GetActivity::class);
         Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
+        Route::post('/{id}/berth', \App\Http\Controllers\Api\Activity\BerthActivityController::class);
+    });
+
+    Route::group(['prefix' => 'owner'], function() {
+        Route::get('/', \App\Http\Controllers\Api\Owner\GetOwner::class);
+        Route::get('/{id?}', \App\Http\Controllers\Api\Owner\GetOwnerById::class);
+        Route::post('/', \App\Http\Controllers\Api\Owner\CreateOwner::class);
+        Route::put('/{id?}', \App\Http\Controllers\Api\Owner\UpdateOwner::class);
     });
 
 

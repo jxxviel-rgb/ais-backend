@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Company;
+namespace App\Http\Controllers\Api\Type;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
+use App\Models\JenisTangkapan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CreateCompany extends Controller
+class CreateTypeController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -17,12 +17,9 @@ class CreateCompany extends Controller
      */
     public function __invoke(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'registration_number' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'owner' => 'required'
         ]);
 
         if($validator->fails()) {
@@ -33,18 +30,15 @@ class CreateCompany extends Controller
             ],400);
         }
 
-        $data = new Company();
+        $data = new JenisTangkapan();
         $data->name = $request->name;
-        $data->registration_number = $request->registration_number;
-        $data->phone = $request->phone;
-        $data->address = $request->address;
-        $data->owner = $request->owner;
         $data->save();
 
         return response()->json([
             'status' => 'Success',
-            'message' => 'Success save company data to database',
+            'message' => 'Success save pelabuhan data to database',
             'companyId' => $data->id
         ]);
+        
     }
 }

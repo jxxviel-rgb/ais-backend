@@ -14,7 +14,8 @@ class Activity extends Model
     protected $casts = [
         'id' => 'string',
         'company_id' => 'string',
-        // 'vessel_id' => ' string'
+        // 'vessel_id' => ' string',
+        // 'pelabuhan_sail_id' => 'string'
     ];
 
     public function company() {
@@ -27,6 +28,14 @@ class Activity extends Model
 
     public function crew() {
         return $this->hasMany(CrewDepature::class, 'activity_id', 'id');
+    }
+
+    public function bertHarbor() {
+        return $this->belongsTo(Pelabuhan::class, 'pelabuhan_berth_id');
+    }
+
+    public function sailHarbor() {
+        return $this->belongsTo(Pelabuhan::class, 'pelabuhan_sail_id');
     }
 
 }
