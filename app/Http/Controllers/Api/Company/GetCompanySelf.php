@@ -7,7 +7,7 @@ use App\Models\Company;
 use Exception;
 use Illuminate\Http\Request;
 
-class GetCompanyById extends Controller
+class GetCompanySelf extends Controller
 {
     /**
      * Handle the incoming request.
@@ -15,22 +15,20 @@ class GetCompanyById extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, $id)
+    public function __invoke(Request $request)
     {
-
         try {
-            $data = Company::with('user')->findOrFail($id);
-
+            $user = $request->user();
+            $data = Company::where('user_id', $user->id)->firstOrFail();
             return response()->json([
                 'status' => 'Success',
                 'result' => $data,
             ]);
-        } catch (Exception $e) {
-            return response()->json([
+        } catch (Exception $err) {
+            return response(400)->json([
                 'status' => 'ERROR',
-                'message' => 'Company with id ' . $id . ' not found',
-            ], 400);
+                'message' => $err->getMessage(),
+            ]);
         }
-        
-    }
+    } 
 }

@@ -18,14 +18,18 @@ class CreateActivity extends Migration
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
             $table->uuid('vessel_id')->index();
             $table->uuid('company_id')->index();
-            $table->date('departure_date');
-            $table->date('return_date')->nullable();
-            $table->enum('status', ['depart', 'return']);
-            $table->string('income')->nullable();
+            $table->date('sail_date');
+            $table->date('berth_date')->nullable();
+            $table->uuid('pelabuhan_sail_id');
+            $table->uuid('pelabuhan_berth_id')->nullable();
+            $table->boolean('is_sail');
+            $table->integer('amount')->nullable();
             $table->timestamps();
 
             $table->foreign('vessel_id')->references('id')->on('vessel');
             $table->foreign('company_id')->references('id')->on('company');
+            $table->foreign('pelabuhan_sail_id')->references('id')->on('pelabuhan');
+            $table->foreign('pelabuhan_berth_id')->references('id')->on('pelabuhan');
         });
 
     }

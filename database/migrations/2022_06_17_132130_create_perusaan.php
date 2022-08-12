@@ -17,10 +17,13 @@ class CreatePerusaan extends Migration
         Schema::create('company', function (Blueprint $table) {
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
             $table->string('name');
+            $table->uuid('user_id')->index();
             $table->string('registration_number');
             $table->string('phone');
             $table->string('address');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

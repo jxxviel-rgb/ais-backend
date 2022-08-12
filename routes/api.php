@@ -22,10 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/auth/login', LoginController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/dashboard', \App\Http\Controllers\Api\Dashboard\GetDataDashboard::class);
+
 
     Route::group(['prefix' => 'company'], function () {
         Route::get('/', \App\Http\Controllers\Api\Company\GetCompany::class);
         Route::get('/{id}', \App\Http\Controllers\Api\Company\GetCompanyById::class);
+        Route::get('/self', \App\Http\Controllers\Api\Company\GetCompanySelf::class);
         Route::post('/', \App\Http\Controllers\Api\Company\CreateCompany::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Company\UpdateCompany::class);
         Route::delete('/{id}', \App\Http\Controllers\Api\Company\DeleteCompany::class);
@@ -39,6 +42,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', \App\Http\Controllers\Api\Crew\CreateCrew::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Crew\UpdateCrew::class);
         Route::delete('/{id}', \App\Http\Controllers\Api\Crew\DeleteCrew::class);
+        Route::get('/company/{id}', \App\Http\Controllers\Api\Crew\GetCrewByCompany::class);
     });
 
     Route::group(['prefix' => 'pelabuhan'], function () {
@@ -68,5 +72,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/{id?}', \App\Http\Controllers\Api\Activity\GetActivity::class);
         Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
         Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
+        Route::post('/{id}/berth', \App\Http\Controllers\Api\Activity\BerthActivityController::class);
+    });
+
+    Route::group(['prefix' => 'type'], function() {
+        Route::get('/', \App\Http\Controllers\Api\Type\GetTypeController::class);
+        Route::post('/', \App\Http\Controllers\Api\Type\CreateTypeController::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Type\UpdateTypeController::class);
     });
 });

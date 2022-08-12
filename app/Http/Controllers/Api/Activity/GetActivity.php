@@ -21,14 +21,20 @@ class GetActivity extends Controller
         try {
 
             if ($id) {
-                $data = Activity::with('company', 'vessel')
+                $data = Activity::with('company', 'vessel', 'bertHarbor', 'sailHarbor')
                     ->withCount('crew')
                     ->where('id', $id)
                     ->firstOrFail();
             } else {
-                $data = Activity::with('company', 'vessel')
-                    ->withCount('crew')
-                    ->get();
+
+                $data = Activity::with('company', 'vessel', 'bertHarbor', 'sailHarbor');
+                if ($request->has('berth')) {
+                    $data = $data->where([
+                        'is_sail'=> $request->berth,
+                        'company_id' => $request->user()->company_id,
+                    ]);
+                }
+                $data = $data->get();
             }
 
             return response()->json([
@@ -38,7 +44,7 @@ class GetActivity extends Controller
         } catch (Exception $err) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' => 'activity with id ' . $id . ' not found',
+                'message' => $err->getMessage(),
             ], 404);
         }
     }

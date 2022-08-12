@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Company;
+namespace App\Http\Controllers\Api\Crew;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
-use App\Models\Perusahaan;
+use App\Models\Crew;
 use Illuminate\Http\Request;
 
-class GetCompany extends Controller
+class GetCrewByCompany extends Controller
 {
     /**
      * Handle the incoming request.
@@ -15,9 +14,9 @@ class GetCompany extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, $id)
     {
-        $data = Company::with('user')->get();
+        $data = Crew::where('company_id', $id)->get();
 
         return response()->json([
             'status' => 'Success',

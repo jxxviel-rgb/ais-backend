@@ -29,5 +29,13 @@ class Activity extends Model
         return $this->hasMany(CrewDepature::class, 'activity_id', 'id');
     }
 
+    public function bertHarbor() {
+        return $this->belongsTo(Pelabuhan::class, 'pelabuhan_berth_id');
+    }
+
+    public function sailHarbor() {
+        return $this->belongsTo(Pelabuhan::class, 'pelabuhan_sail_id');
+    }
+
 }
 
