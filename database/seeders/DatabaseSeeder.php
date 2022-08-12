@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,9 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            UserSeeder::class,
-            GenerateRandVessel::class
-        ]);
+        DB::beginTransaction();
+
+        try {
+            $this->call([
+                UserSeeder::class,
+                GenerateRandVessel::class
+            ]);
+
+            DB::commit();
+        } catch(Exception $err) {
+            DB::rollBack();
+            dd($err);
+        }
     }
 }

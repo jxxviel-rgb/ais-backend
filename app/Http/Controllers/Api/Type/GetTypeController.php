@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Company;
+namespace App\Http\Controllers\Api\Type;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
-use App\Models\Perusahaan;
+use App\Models\JenisTangkapan;
 use Illuminate\Http\Request;
 
-class GetCompany extends Controller
+class GetTypeController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -17,7 +16,7 @@ class GetCompany extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = Company::with('user')->get();
+        $data = JenisTangkapan::all();
 
         return response()->json([
             'status' => 'Success',

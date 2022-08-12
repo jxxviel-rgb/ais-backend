@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Api\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class CreateCompany extends Controller
@@ -22,6 +26,11 @@ class CreateCompany extends Controller
             'registration_number' => 'required',
             'phone' => 'required',
             'address' => 'required',
+            'owner' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:5',
+            'cPassword' => 'same:password'
+
         ]);
 
         if($validator->fails()) {
@@ -32,17 +41,37 @@ class CreateCompany extends Controller
             ],400);
         }
 
-        $data = new Company();
-        $data->name = $request->name;
-        $data->registration_number = $request->registration_number;
-        $data->phone = $request->phone;
-        $data->address = $request->address;
-        $data->save();
+        try {
 
-        return response()->json([
-            'status' => 'Success',
-            'message' => 'Success save company data to database',
-            'companyId' => $data->id
-        ]);
+            $user = new User();
+            $user->email = $request->email;
+            $user->name = $request->owner;
+            $user->password = Hash::make($request->password);
+            $user->role = 'owner';
+            $user->save();
+
+            $data = new Company();
+            $data->user_id = $user->id;
+            $data->name = $request->name;
+            $data->registration_number = $request->registration_number;
+            $data->phone = $request->phone;
+            $data->address = $request->address;
+            $data->save();
+    
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Success save company data to database',
+                'companyId' => $data->id
+            ]);
+
+        } catch(Exception $err) {
+            DB::rollBack();
+            return response(400)->json([
+                'status' => 'ERROR',
+                'message' => $err->getMessage(),
+                'companyId' => $data->id
+            ]);
+        }
+
     }
 }
