@@ -30,7 +30,7 @@ class Vessel extends Model
     }
     public function position()
     {
-        return $this->hasMany(Position::class);
+        return $this->hasMany(Position::class)->latest();
     }
     public function latestPosition()
     {

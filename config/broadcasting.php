@@ -39,6 +39,7 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => true,
             ],
+            'activityTimeout' => 10000
         ],
 
         'ably' => [

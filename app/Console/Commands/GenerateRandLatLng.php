@@ -47,7 +47,6 @@ class GenerateRandLatLng extends Command
     {
         $vesselIds = Vessel::select('id')->pluck('id')->toArray();
         $vessels = Vessel::whereKey($vesselIds)->with('latestPosition')->get();
-        // dd($vesselIds);
         foreach ($vessels as $vessel) {
             $randomLat = round($this->random_float(0.0001, 0.0006), 4);
             $randomLong = round($this->random_float(0.001, 0.006), 4);
@@ -63,8 +62,8 @@ class GenerateRandLatLng extends Command
             $position->longitude = $lng;
             $position->navigation_status = $vessel->latestPosition->status;
             $position->save();
-
             SendLocation::dispatch($vessel);
+            sleep(1);
         }
 
         return print("command sedang berjalan");

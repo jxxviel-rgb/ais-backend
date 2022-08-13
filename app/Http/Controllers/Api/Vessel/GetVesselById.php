@@ -18,7 +18,7 @@ class GetVesselById extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Vessel::with(['company', 'pelabuhan', 'position'])->findOrFail($id);
+            $data = Vessel::with(['company', 'pelabuhan', 'position'])->where('id', $id)->first();
 
             return response()->json([
                 'status' => 'Success',
