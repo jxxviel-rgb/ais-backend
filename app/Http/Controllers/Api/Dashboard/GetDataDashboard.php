@@ -20,19 +20,38 @@ class GetDataDashboard extends Controller
      */
     public function __invoke(Request $request)
     {
-        $cathType = JenisTangkapan::withSum('activity as total_tangkapan' , 'amount')->get();
-        $totalCompany = Company::count();
-        $totalVessel = Vessel::count();
-        $totalCrew = Crew::count();
+        $user = $request->user();
+
+        $cathType = JenisTangkapan::withSum(
+            [
+                'activity as total_tangkapan' => function ($query) use ($user) {
+                    if ($user->role == 'owner') {
+                        $query->where('company_id', $user->company->id);
+                    }
+                }
+            ],
+            'amount'
+        )->get();
+
+        if ($user->role == 'owner') {
+            $totalVessel = Vessel::where('company_id', $user->company->id)->count();
+            $totalCrew = Crew::where('company_id', $user->company->id)->count();
+            $totalCompany = null;
+        } else {
+            $totalVessel = Vessel::count();
+            $totalCrew = Crew::count();
+            $totalCompany = Company::count();
+        }
         $data = [
             'hasil_tangkapan' => $cathType,
             'total_company' => $totalCompany,
             'total_crew' => $totalCrew,
             'total_vessel' => $totalVessel,
+            'user' => $request->user()
         ];
 
 
-        
+
         return response()->json([
             'status' => 'Success',
             'result' => $data

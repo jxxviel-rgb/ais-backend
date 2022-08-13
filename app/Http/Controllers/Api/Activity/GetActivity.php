@@ -26,10 +26,14 @@ class GetActivity extends Controller
                     ->where('id', $id)
                     ->firstOrFail();
             } else {
-                
+
                 $data = Activity::with('company', 'vessel', 'bertHarbor', 'sailHarbor');
-                
-                $request->has('berth') ? $data = $data->where('is_sail', $request->berth) : null;
+                if ($request->has('berth')) {
+                    $data = $data->where([
+                        'is_sail' => $request->berth,
+                        'company_id' => $request->user()->company_id,
+                    ]);
+                }
                 $data = $data->get();
             }
 

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Company;
 use App\Models\Pelabuhan;
 use App\Models\Position;
+use App\Models\User;
 use App\Models\Vessel;
 
 use Illuminate\Database\Seeder;
@@ -27,10 +28,16 @@ class GenerateRandVessel extends Seeder
     }
     public function run()
     {
-        $owner = ['Dipa', 'Syarif', 'Syafik'];
-        $ownersKey = array_rand($owner);
+        $user =  User::where('role', 'owner')->firstOrFail();
+        // dd($user);
+
         $company = [
-            'name' =>  "Shumaru Lab", 'registration_number' => rand(1000, 5000), 'phone' => '08123456789', 'owner' => $owner[$ownersKey], 'address' => "Jl. Celeng no 19, Indramayu"
+            'user_id' => $user->id,
+            'name' =>  "Shumaru Lab",
+            'registration_number' => rand(1000, 5000),
+            'phone' => '08123456789',
+            'address' => "Jl. Celeng no 19, Indramayu",
+            'owner' => $user->name,
         ];
 
         $perusahaan = Company::create($company);

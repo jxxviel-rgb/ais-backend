@@ -17,7 +17,7 @@ class GetCompany extends Controller
      */
     public function __invoke(Request $request)
     {
-        $data = Company::all();
+        $data = Company::with('user')->get();
 
         return response()->json([
             'status' => 'Success',

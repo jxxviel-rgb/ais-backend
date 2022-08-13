@@ -43,13 +43,21 @@ class LoginController extends Controller
             ], 400);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        try {
+            $user = User::with('company')->where('email', $request->email)->firstOrFail();
+            $token = $user->createToken('auth_token')->plainTextToken;
+    
+            return response()->json([
+                'status' => 'Success',
+                'access_token' => $token,
+                'user' => $user,
+            ]);
 
-        return response()->json([
-            'status' => 'Success',
-            'access_token' => $token,
-            'user' => $user,
-        ]);
+        } catch(Exception $err) {
+            return response(401)->json([
+                'status' => 'ERROR',
+                'message' => $err->getMessage(),
+            ]);
+        }
     }
 }
