@@ -19,31 +19,35 @@ class CreateActivity extends Controller
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'companyId' => 'required|exists:company,id',
-            'vesselId' => 'required|exists:vessel,id',
-            'dateDeparture' => 'required|date_format:Y-m-d',
-            'dateReturn' => 'required|date_format:Y-m-d',
-            'status' => 'required|in:depart,return',
-            'amount' => 'required_id:status,==,return|nullable|integer'
+            'company_id' => 'required|exists:company,id',
+            'vessel_id' => 'required|exists:vessel,id',
+            'sail_date' => 'required|date_format:Y-m-d',
+            'pelabuhan_sail_id' => 'required|exists:pelabuhan,id',
+        ], [], [
+            'company_id' => 'Company',
+            'vessel_id' => 'Vessel',
+            'sail_date' => 'Sail',
+            'berth_date' => 'Berth date',
+            'pelabuhan_sail_id' => 'Place of departure'
         ],);
 
 
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'ERROR',
                 'message' => 'Failed to validate data',
                 'data' => $validator->errors()
-            ],400);
+            ], 400);
         }
 
 
         $activity = new Activity();
-        $activity->company_id = $request->companyId;
-        $activity->vessel_id = $request->vesselId;
-        $activity->departure_date = $request->dateDeparture;
-        $activity->return_date = $request->dateReturn;
-        $activity->status = $request->status;
+        $activity->company_id = $request->company_id;
+        $activity->vessel_id = $request->vessel_id;
+        $activity->sail_date = $request->sail_date;
+        $activity->pelabuhan_sail_id = $request->pelabuhan_sail_id;
+        $activity->is_sail = true;
         $activity->save();
 
         return response()->json([
