@@ -24,6 +24,7 @@ Route::post('/auth/login', LoginController::class);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/dashboard', \App\Http\Controllers\Api\Dashboard\GetDataDashboard::class);
 
+    Route::get('/company-self', \App\Http\Controllers\Api\Company\GetCompanySelf::class);
 
     Route::group(['prefix' => 'company'], function () {
         Route::get('/', \App\Http\Controllers\Api\Company\GetCompany::class);
