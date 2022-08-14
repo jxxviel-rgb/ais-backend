@@ -30,7 +30,7 @@ class GetActivity extends Controller
                 $data = Activity::with('company', 'vessel', 'bertHarbor', 'sailHarbor');
                 if ($request->has('berth')) {
                     $data = $data->where([
-                        'is_sail'=> $request->berth,
+                        'is_sail' => $request->berth,
                         'company_id' => $request->user()->company_id,
                     ]);
                 }

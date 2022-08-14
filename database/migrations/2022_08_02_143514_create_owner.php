@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePerusaan extends Migration
+class CreateOwner extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +14,12 @@ class CreatePerusaan extends Migration
      */
     public function up()
     {
-        Schema::create('company', function (Blueprint $table) {
+        Schema::create('owner', function (Blueprint $table) {
             $table->uuid('id')->primary()->index()->default(DB::raw('uuid_generate_v4()'));
             $table->string('name');
-            $table->uuid('user_id')->index();
-            $table->string('registration_number');
             $table->string('phone');
             $table->string('address');
-            $table->string('owner');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -35,6 +30,6 @@ class CreatePerusaan extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company');
+        Schema::dropIfExists('owner');
     }
 }

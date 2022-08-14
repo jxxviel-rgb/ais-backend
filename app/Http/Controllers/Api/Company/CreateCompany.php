@@ -33,12 +33,12 @@ class CreateCompany extends Controller
 
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'ERROR',
                 'message' => 'Failed to validate data',
                 'data' => $validator->errors()
-            ],400);
+            ], 400);
         }
 
         try {
@@ -57,14 +57,13 @@ class CreateCompany extends Controller
             $data->phone = $request->phone;
             $data->address = $request->address;
             $data->save();
-    
+
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Success save company data to database',
                 'companyId' => $data->id
             ]);
-
-        } catch(Exception $err) {
+        } catch (Exception $err) {
             DB::rollBack();
             return response(400)->json([
                 'status' => 'ERROR',
@@ -72,6 +71,5 @@ class CreateCompany extends Controller
                 'companyId' => $data->id
             ]);
         }
-
     }
 }

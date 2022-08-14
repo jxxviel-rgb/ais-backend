@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\Vessel;
+namespace App\Http\Controllers\Api\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vessel;
+use App\Models\Owner;
 use Exception;
 use Illuminate\Http\Request;
 
-class GetVesselById extends Controller
+class GetOwnerById extends Controller
 {
     /**
      * Handle the incoming request.
@@ -18,7 +18,7 @@ class GetVesselById extends Controller
     public function __invoke(Request $request, $id)
     {
         try {
-            $data = Vessel::with(['company', 'pelabuhan', 'position'])->where('id', $id)->first();
+            $data = Owner::findOrFail($id);
 
             return response()->json([
                 'status' => 'Success',
@@ -27,7 +27,7 @@ class GetVesselById extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'ERROR',
-                'message' => 'Pelabuhan with id ' . $id . ' not found',
+                'message' => 'Crew with id ' . $id . ' not found',
             ], 400);
         }
     }

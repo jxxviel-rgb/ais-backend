@@ -14,7 +14,8 @@ class Activity extends Model
     protected $casts = [
         'id' => 'string',
         'company_id' => 'string',
-        // 'vessel_id' => ' string'
+        // 'vessel_id' => ' string',
+        // 'pelabuhan_sail_id' => 'string'
     ];
 
     public function company() {
