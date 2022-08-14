@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Vessel;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class GenerateRandVessel extends Seeder
 {
@@ -28,9 +29,12 @@ class GenerateRandVessel extends Seeder
     }
     public function run()
     {
-        $user =  User::where('role', 'owner')->firstOrFail();
-        // dd($user);
+        $path = Storage::disk('local')->get('flags.json');
+        $mmsi = json_decode($path, true);
+        $key = array_rand($mmsi);
+        // dd($mmsi[$key]['mid']);
 
+        $user =  User::where('role', 'owner')->firstOrFail();
         $company = [
             'user_id' => $user->id,
             'name' =>  "Shumaru Lab",
@@ -45,26 +49,23 @@ class GenerateRandVessel extends Seeder
         $harbor = [
             'name' => 'Pelabuhan Ratu'
         ];
-        $fourDigitStr = '4525';
-        $randMmsi = $fourDigitStr . (string) mt_rand(10000, 99999);
-        // dd($randMmsi);
-        $intRandMmsi = (int) $randMmsi;
+        $firstThreeDigitMmsi = '525';
         $type = ['Passenger', 'Crew'];
         $pelabuhan = Pelabuhan::create($harbor);
         for ($index = 0; $index < 5; $index++) {
             $start = strtotime('1990-01-01');
             $end = time();
             $timestamp = mt_rand($start, $end);
-            $key = array_rand($type);
+            $keyType = array_rand($type);
             $vessel = [
                 'company_id' => $perusahaan['id'],
                 'msg_type' => 18,
                 'no_ais' => mt_rand(1000, 9999),
-                'mmsi' => mt_rand(100000000, 999999999),
+                'mmsi' =>  $mmsi[$key]['mid'] .  (string) mt_rand(100000, 999999),
                 'name' => 'SMR' . rand(1000, 2000),
                 'imo' => rand(1000000, 9999999),
                 'call_sign' => $this->generateRandomString(),
-                'type' => $type[$key],
+                'type' => $type[$keyType],
                 'image' => 'asd',
                 'length' => mt_rand(1, 70),
                 'width' => mt_rand(1, 10),
@@ -77,16 +78,15 @@ class GenerateRandVessel extends Seeder
 
                 $vesselCreated =  Vessel::create($vessel);
             } else {
-
                 $vesselCreated = Vessel::create([
                     'company_id' => $perusahaan['id'],
                     'msg_type' => 18,
                     'no_ais' => mt_rand(1000, 9999),
-                    'mmsi' => $intRandMmsi,
+                    'mmsi' => $firstThreeDigitMmsi .  (string) mt_rand(100000, 999999),
                     'name' => 'SMR' . rand(1000, 2000),
                     'imo' => rand(1000000, 9999999),
                     'call_sign' => $this->generateRandomString(),
-                    'type' => $type[$key],
+                    'type' => $type[$keyType],
                     'image' => 'asd',
                     'length' => mt_rand(1, 70),
                     'width' => mt_rand(1, 10),
