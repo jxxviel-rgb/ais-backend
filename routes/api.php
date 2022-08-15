@@ -62,20 +62,26 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::get('/search', [\App\Http\Controllers\Api\PositionController::class, 'search'])->withoutMiddleware("auth:sanctum");
         Route::get('/{id}/positions', [\App\Http\Controllers\Api\PositionController::class, 'show'])->withoutMiddleware("auth:sanctum");
+        Route::get('/', \App\Http\Controllers\Api\Vessel\GetVessel::class);
+        Route::get('/company/{id}', \App\Http\Controllers\Api\Vessel\GetVessel::class);
+        Route::get('/{id}', \App\Http\Controllers\Api\Vessel\GetVesselById::class);
+        Route::post('/', \App\Http\Controllers\Api\Vessel\CreateVessel::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Vessel\UpdateVessel::class);
+        Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
         Route::group(['prefix' => 'type'], function () {
             Route::get('/', \App\Http\Controllers\Api\Type\GetTypeController::class);
             Route::post('/', \App\Http\Controllers\Api\Type\CreateTypeController::class);
             Route::put('/{id}', \App\Http\Controllers\Api\Type\UpdateTypeController::class);
         });
 
-        Route::group(['prefix' => 'vessel', 'middleware' => 'cors'], function () {
-            Route::get('/', \App\Http\Controllers\Api\Vessel\GetVessel::class);
-            Route::get('/company/{id}', \App\Http\Controllers\Api\Vessel\GetVessel::class);
-            Route::get('/{id}', \App\Http\Controllers\Api\Vessel\GetVesselById::class);
-            Route::post('/', \App\Http\Controllers\Api\Vessel\CreateVessel::class);
-            Route::put('/{id}', \App\Http\Controllers\Api\Vessel\UpdateVessel::class);
-            Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
-        });
+        // Route::group(['prefix' => 'vessel', 'middleware' => 'cors'], function () {
+        //     Route::get('/', \App\Http\Controllers\Api\Vessel\GetVessel::class);
+        //     Route::get('/company/{id}', \App\Http\Controllers\Api\Vessel\GetVessel::class);
+        //     Route::get('/{id}', \App\Http\Controllers\Api\Vessel\GetVesselById::class);
+        //     Route::post('/', \App\Http\Controllers\Api\Vessel\CreateVessel::class);
+        //     Route::put('/{id}', \App\Http\Controllers\Api\Vessel\UpdateVessel::class);
+        //     Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
+        // });
 
         Route::group(['prefix' => 'activity'], function () {
             Route::get('/', \App\Http\Controllers\Api\Activity\GetActivity::class);
