@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,13 +83,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         //     Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
         // });
 
-        Route::group(['prefix' => 'activity'], function () {
-            Route::get('/', \App\Http\Controllers\Api\Activity\GetActivity::class);
-            Route::get('/{id?}', \App\Http\Controllers\Api\Activity\GetActivity::class);
-            Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
-            Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
-            Route::post('/{id}/berth', \App\Http\Controllers\Api\Activity\BerthActivityController::class);
-        });
+        // Route::group(['prefix' => 'activity'], function () {
+        //     Route::get('/', \App\Http\Controllers\Api\Activity\GetActivity::class);
+        //     Route::get('/{id?}', \App\Http\Controllers\Api\Activity\GetActivity::class);
+        //     Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
+        //     Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
+        //     Route::post('/{id}/berth', \App\Http\Controllers\Api\Activity\BerthActivityController::class);
+        // });
 
         Route::group(['prefix' => 'owner'], function () {
             Route::get('/', \App\Http\Controllers\Api\Owner\GetOwner::class);
@@ -110,4 +111,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::put('/{id}', \App\Http\Controllers\Api\Type\UpdateTypeController::class);
         });
     });
+});
+
+Route::get('test', function () {
+    Artisan::call('command:randlatlng');
 });

@@ -32,7 +32,6 @@ class GenerateRandVessel extends Seeder
         $path = Storage::disk('local')->get('flags.json');
         $mmsi = json_decode($path, true);
         $key = array_rand($mmsi);
-        // dd($mmsi[$key]['mid']);
 
         $user =  User::where('role', 'owner')->firstOrFail();
         $company = [

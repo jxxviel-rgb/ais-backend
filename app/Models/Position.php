@@ -17,9 +17,17 @@ class Position extends Model
     protected $casts = [
         'id' => 'string',
     ];
+    protected $appends = ['last_report'];
 
     public function vessel()
     {
         $this->belongsTo(Vessel::class);
+    }
+    public function getLastReportAttribute()
+    {
+        // return new Attribute(
+        //     get: fn () => $this->created_at->diffForHumans()
+        // );
+        return $this->created_at->diffForHumans();
     }
 }
