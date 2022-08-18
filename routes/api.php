@@ -25,6 +25,7 @@ Route::post('/auth/login', LoginController::class);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/dashboard', \App\Http\Controllers\Api\Dashboard\GetDataDashboard::class);
 
+    Route::get('/company-self', \App\Http\Controllers\Api\Company\GetCompanySelf::class);
 
     Route::get('/dashboard', \App\Http\Controllers\Api\Dashboard\GetDataDashboard::class);
 
@@ -56,6 +57,20 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::delete('/{id}', \App\Http\Controllers\Api\Pelabuhan\DeletePelabuhan::class);
     });
 
+    Route::group(['prefix' => 'activity'], function () {
+        Route::get('/', \App\Http\Controllers\Api\Activity\GetActivity::class);
+        Route::get('/{id?}', \App\Http\Controllers\Api\Activity\GetActivity::class);
+        Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
+        Route::post('/{id}/berth', \App\Http\Controllers\Api\Activity\BerthActivityController::class);
+    });
+
+    Route::group(['prefix' => 'type'], function () {
+        Route::get('/', \App\Http\Controllers\Api\Type\GetTypeController::class);
+        Route::post('/', \App\Http\Controllers\Api\Type\CreateTypeController::class);
+        Route::put('/{id}', \App\Http\Controllers\Api\Type\UpdateTypeController::class);
+    });
+
     Route::group(['prefix' => 'vessel'], function () {
         Route::get('/{id}/position', [\App\Http\Controllers\Api\PositionController::class, 'vesselPosition'])->withoutMiddleware("auth:sanctum")->where('id', '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$');
         Route::get('/position', [\App\Http\Controllers\Api\PositionController::class, 'index'])->withoutMiddleware("auth:sanctum");
@@ -83,13 +98,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         //     Route::delete('/{id}', \App\Http\Controllers\Api\Vessel\DeleteVessel::class);
         // });
 
-        // Route::group(['prefix' => 'activity'], function () {
-        //     Route::get('/', \App\Http\Controllers\Api\Activity\GetActivity::class);
-        //     Route::get('/{id?}', \App\Http\Controllers\Api\Activity\GetActivity::class);
-        //     Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
-        //     Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
-        //     Route::post('/{id}/berth', \App\Http\Controllers\Api\Activity\BerthActivityController::class);
-        // });
+
 
         Route::group(['prefix' => 'owner'], function () {
             Route::get('/', \App\Http\Controllers\Api\Owner\GetOwner::class);
@@ -103,12 +112,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/', \App\Http\Controllers\Api\Activity\CreateActivity::class);
             Route::put('/{id}', \App\Http\Controllers\Api\Activity\UpdateActivity::class);
             Route::post('/{id}/berth', \App\Http\Controllers\Api\Activity\BerthActivityController::class);
-        });
-
-        Route::group(['prefix' => 'type'], function () {
-            Route::get('/', \App\Http\Controllers\Api\Type\GetTypeController::class);
-            Route::post('/', \App\Http\Controllers\Api\Type\CreateTypeController::class);
-            Route::put('/{id}', \App\Http\Controllers\Api\Type\UpdateTypeController::class);
         });
     });
 });
