@@ -31,7 +31,6 @@ class GenerateRandVessel extends Seeder
     {
         $path = Storage::disk('local')->get('flags.json');
         $mmsi = json_decode($path, true);
-        $key = array_rand($mmsi);
 
         $user =  User::where('role', 'owner')->firstOrFail();
         $company = [
@@ -51,7 +50,9 @@ class GenerateRandVessel extends Seeder
         $firstThreeDigitMmsi = '525';
         $type = ['Passenger', 'Crew'];
         $pelabuhan = Pelabuhan::create($harbor);
-        for ($index = 0; $index < 5; $index++) {
+        for ($index = 0; $index < 100; $index++) {
+            $key = array_rand($mmsi);
+
             $start = strtotime('1990-01-01');
             $end = time();
             $timestamp = mt_rand($start, $end);
@@ -74,8 +75,41 @@ class GenerateRandVessel extends Seeder
             ];
 
             if ($index === 0 || $index === 1 || $index === 2) {
-
                 $vesselCreated =  Vessel::create($vessel);
+                Position::create([
+                    'vessel_id' => $vesselCreated->id,
+                    'speed' => round($this->random_float(1, 100), 4),
+                    'course' => round($this->random_float(1, 100), 4),
+                    'longitude' =>  round(103.8 + $this->random_float(0.100, 1.999), 4),
+                    'latitude' => round(5.2 - $this->random_float(0.100, 0.500), 4),
+                    'navigation_status' => 'Underway Using Engine'
+                ]);
+            } else if ($index === 3) {
+                $vesselCreated = Vessel::create([
+                    'company_id' => $perusahaan['id'],
+                    'msg_type' => 18,
+                    'no_ais' => mt_rand(1000, 9999),
+                    'mmsi' => $firstThreeDigitMmsi .  (string) mt_rand(100000, 999999),
+                    'name' => 'SMR' . rand(1000, 2000),
+                    'imo' => rand(1000000, 9999999),
+                    'call_sign' => $this->generateRandomString(),
+                    'type' => $type[$keyType],
+                    'image' => 'asd',
+                    'length' => mt_rand(1, 70),
+                    'width' => mt_rand(1, 10),
+                    'netto' => mt_rand(1, 10),
+                    'gt' => mt_rand(30, 500),
+                    'years' => date('Y', $timestamp),
+                ]);
+
+                $positionCreated = Position::create([
+                    'vessel_id' => $vesselCreated->id,
+                    'speed' => round($this->random_float(1, 100), 4),
+                    'course' => round($this->random_float(1, 100), 4),
+                    'longitude' =>  round(103.8 + $this->random_float(0.100, 1.999), 4),
+                    'latitude' => round(5.2 - $this->random_float(0.100, 0.500), 4),
+                    'navigation_status' => 'Underway Using Engine'
+                ]);
             } else {
                 $vesselCreated = Vessel::create([
                     'company_id' => $perusahaan['id'],
@@ -93,17 +127,6 @@ class GenerateRandVessel extends Seeder
                     'gt' => mt_rand(30, 500),
                     'years' => date('Y', $timestamp),
                 ]);
-            }
-            if ($index === 0 || $index === 1 || $index === 2) {
-                Position::create([
-                    'vessel_id' => $vesselCreated->id,
-                    'speed' => round($this->random_float(1, 100), 4),
-                    'course' => round($this->random_float(1, 100), 4),
-                    'longitude' =>  round(103.8 + $this->random_float(0.100, 1.999), 4),
-                    'latitude' => round(5.2 - $this->random_float(0.100, 0.500), 4),
-                    'navigation_status' => 'Underway Using Engine'
-                ]);
-            } else {
 
                 $positionCreated = Position::create([
                     'vessel_id' => $vesselCreated->id,
@@ -114,6 +137,11 @@ class GenerateRandVessel extends Seeder
                     'navigation_status' => 'Underway Using Engine'
                 ]);
             }
+            // if ($index === 0 || $index === 1 || $index === 2) {
+
+            // } else {
+
+            // }
         }
     }
 }
