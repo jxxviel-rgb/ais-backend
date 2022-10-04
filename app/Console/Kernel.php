@@ -31,6 +31,6 @@ class Kernel extends ConsoleKernel
     }
     protected function shortSchedule(\Spatie\ShortSchedule\ShortSchedule $shortSchedule)
     {
-        $shortSchedule->command('command:randlatlng')->everySecond(3)->withoutOverlapping();
+        $shortSchedule->command('command:randlatlng')->everySecond(3);
     }
 }
